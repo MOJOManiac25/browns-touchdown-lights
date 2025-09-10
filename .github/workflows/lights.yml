@@ -1,0 +1,22 @@
+name: Browns Touchdown Lights
+
+on:
+  workflow_dispatch:  # lets you trigger it manually for testing
+
+jobs:
+  touchdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Turn on lights for Browns touchdown
+        run: |
+          curl -X PUT "https://developer-api.govee.com/v1/devices/control" \
+          -H "Govee-API-Key: ${{ secrets.GOVEE_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "device": "'"${{ secrets.GOVEE_DEVICE_ID }}"'",
+            "model": "'"${{ secrets.GOVEE_MODEL }}"'",
+            "cmd": {
+              "name": "color",
+              "value": {"r":255,"g":60,"b":0}
+            }
+          }'
