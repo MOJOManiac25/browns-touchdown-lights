@@ -7,16 +7,17 @@ jobs:
   touchdown:
     runs-on: ubuntu-latest
     steps:
-      - name: Turn on lights for Browns touchdown
-        run: |
-          curl -X PUT "https://developer-api.govee.com/v1/devices/control" \
-          -H "Govee-API-Key: ${{ secrets.GOVEE_API_KEY }}" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "device": "'"${{ secrets.GOVEE_DEVICE_ID }}"'",
-            "model": "'"${{ secrets.GOVEE_MODEL }}"'",
-            "cmd": {
-              "name": "color",
-              "value": {"r":255,"g":60,"b":0}
-            }
-          }'
+- name: Turn on lights for Browns touchdown
+  run: |
+    RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" -X PUT "https://developer-api.govee.com/v1/devices/control" \
+      -H "Govee-API-Key: ${{ secrets.GOVEE_API_KEY }}" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "device": "'"${{ secrets.GOVEE_DEVICE_ID }}"'",
+        "model": "'"${{ secrets.GOVEE_MODEL }}"'",
+        "cmd": {
+          "name": "color",
+          "value": {"r":255,"g":60,"b":0}
+        }
+      }')
+    echo "$RESPONSE"
